@@ -15,12 +15,15 @@
 </head>
 <body>
   <div id="app">
+    <!-- Floating Particles -->
     <div id="petals-container" class="petals-container"></div>
     
+    <!-- Decorative Circles -->
     <div class="deco-circle deco-circle-1"></div>
     <div class="deco-circle deco-circle-2"></div>
     <div class="deco-circle deco-circle-3"></div>
 
+    <!-- Header -->
     <header class="header">
       <div class="logo">
         <span class="logo-icon">💎</span>
@@ -29,8 +32,10 @@
       <button id="reset-btn" class="reset-btn hidden">最初から</button>
     </header>
 
+    <!-- Main Content -->
     <main class="main-content">
       
+      <!-- Intro Screen -->
       <section id="intro-screen" class="screen intro-screen">
         <div class="intro-heart">✨</div>
         <h1 class="intro-title">Love Identity</h1>
@@ -62,10 +67,11 @@
         <p class="intro-time">所要時間：約3分</p>
       </section>
 
+      <!-- Quiz Screen -->
       <section id="quiz-screen" class="screen quiz-screen hidden">
         <div class="progress-container">
           <div class="progress-info">
-            <span id="question-counter">Question 1 / 20</span>
+            <span id="question-counter">Analysis 1 / 20</span>
             <span id="progress-percent">5%</span>
           </div>
           <div class="progress-bar">
@@ -79,6 +85,7 @@
         </div>
       </section>
 
+      <!-- Result Screen -->
       <section id="result-screen" class="screen result-screen hidden">
         <div class="result-header">
           <p class="result-label">Your Core Identity</p>
@@ -99,23 +106,27 @@
           </div>
         </div>
 
+        <!-- Love Match Section -->
         <div class="compatibility-section love-section">
           <h3 class="compatibility-title"><span>🔥</span> 恋人としての相性</h3>
           <p class="compatibility-subtitle">本能的な惹かれ合い・情熱的な関係</p>
           <div id="love-matches" class="match-list"></div>
         </div>
 
+        <!-- Marriage Match Section -->
         <div class="compatibility-section marriage-section">
           <h3 class="compatibility-title"><span>🤝</span> 人生のパートナーとしての相性</h3>
           <p class="compatibility-subtitle">長期的な安定・補完し合える関係性</p>
           <div id="marriage-matches" class="match-list"></div>
         </div>
 
+        <!-- Spectrum Chart -->
         <div class="spectrum-section">
           <h3 class="spectrum-title">Identity Profile</h3>
           <div id="spectrum-chart" class="spectrum-chart"></div>
         </div>
 
+        <!-- Share Buttons -->
         <div class="share-section">
           <p class="share-title">💌 診断結果をシェアする</p>
           <div class="share-buttons">
@@ -135,6 +146,7 @@
           <button id="retry-btn" class="retry-btn">もう一度特定する 💫</button>
         </div>
 
+        <!-- All Types -->
         <div class="all-types-section">
           <h3 class="all-types-title">Identity Variations</h3>
           <div id="all-types-grid" class="all-types-grid"></div>
@@ -143,6 +155,7 @@
 
     </main>
 
+    <!-- Footer -->
     <footer class="footer">
       <p>Love Identity - 恋愛アイデンティティ診断 ✨</p>
       <p class="footer-note">※ この診断はエンターテインメントです。自己分析の参考としてお楽しみください。</p>
