@@ -11,351 +11,159 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: "Zen Maru Gothic", "Hiragino Kaku Gothic ProN", sans-serif; }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes heartbeat { 0%, 100% { transform: scale(1); } 25% { transform: scale(1.1); } 50% { transform: scale(1); } 75% { transform: scale(1.1); } }
-    @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(5deg); } }
-    @keyframes floatPetal { 0% { transform: translateY(-10px) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
-    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-  </style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div id="root"></div>
-  <script type="text/babel">
-    const { useState } = React;
+  <div id="app">
+    <!-- Floating Petals -->
+    <div id="petals-container" class="petals-container"></div>
+    
+    <!-- Decorative Circles -->
+    <div class="deco-circle deco-circle-1"></div>
+    <div class="deco-circle deco-circle-2"></div>
+    <div class="deco-circle deco-circle-3"></div>
 
-    const typeData = {
-      'AEPV': { name: '情熱の冒険家', emoji: '🔥', description: '愛情表現が豊かで、感情を大切にし、情熱的に恋愛を楽しむタイプ。新しい経験や変化を恐れず、パートナーと共に人生の冒険を楽しみたいと考えています。', strengths: ['サプライズが得意', '愛情表現がストレート', '一緒にいて飽きない'], challenges: ['衝動的になりやすい', '安定を求めるパートナーとは相性注意'], loveMatch: [{ type: 'REPV', reason: '同じ情熱と冒険心を持ちながら、控えめな相手があなたのリードを心地よく受け入れてくれます。お互いの感情を深く理解し合い、刺激的な恋愛が楽しめます。' }, { type: 'AESV', reason: '感情豊かな点が共通し、あなたの情熱を受け止めつつ安定感も与えてくれるバランスの良い相手。夢を語り合える関係になれます。' }], marriageMatch: [{ type: 'RLSC', reason: '正反対だからこそ補い合える関係。あなたの情熱と冒険心に対し、相手の冷静さと堅実さが家庭に安定をもたらします。長期的に見ると、お互いの弱点をカバーし合える理想的なパートナーです。' }, { type: 'ALSC', reason: '愛情表現の積極性は共通しつつ、相手の安定志向があなたの衝動性をうまくコントロール。一緒に家庭を築く上で頼れる存在になります。' }] },
-      'AEPC': { name: '献身のロマンチスト', emoji: '💕', description: '愛する人に惜しみなく愛情を注ぎ、感情的なつながりを大切にするタイプ。情熱的でありながら、将来を見据えた堅実な関係を築きたいと願っています。', strengths: ['深い愛情表現', '感情的サポートが得意', '将来設計もしっかり'], challenges: ['相手に尽くしすぎる', '自分の気持ちを優先しがち'], loveMatch: [{ type: 'REPC', reason: '感情を大切にし堅実な点が一致。控えめな相手があなたの愛情表現を嬉しく受け止め、深い信頼関係を築けます。' }, { type: 'AEPV', reason: '同じ情熱と愛情深さを持ち、お互いの感情に敏感。刺激的でありながら心が通じ合う恋愛ができます。' }], marriageMatch: [{ type: 'RLSV', reason: '相手の知的で落ち着いた面が、あなたの情熱的な愛情をうまく受け止めます。お互いの将来への展望を尊重し合い、成長し続ける結婚生活が期待できます。' }, { type: 'ALPC', reason: '計画性と愛情表現の積極さが共通し、将来設計を一緒に楽しめる相手。堅実な家庭を築きながらも愛情あふれる関係を維持できます。' }] },
-      'AESV': { name: '穏やかな夢追い人', emoji: '🌈', description: '愛情深く感情豊かでありながら、安定した関係を好むタイプ。同時に新しい可能性にも開かれており、パートナーと共に成長することを大切にします。', strengths: ['安心感を与える', '夢を応援してくれる', 'バランス感覚がある'], challenges: ['決断に時間がかかる', '理想と現実のギャップに悩む'], loveMatch: [{ type: 'RESV', reason: '同じ夢見がちな感性を持ち、お互いの内面世界を理解し合えます。穏やかながらも深い感情的つながりが生まれます。' }, { type: 'AEPV', reason: 'あなたの安定志向と相手の情熱がうまくミックス。刺激を受けながらも安心できる関係が築けます。' }], marriageMatch: [{ type: 'RLPC', reason: '相手の冷静さと計画性が、あなたの夢見がちな面を現実に落とし込む手助けをしてくれます。安定した家庭基盤の上で、一緒に夢を追いかけられます。' }, { type: 'ALSC', reason: '愛情表現は共に積極的で、相手の堅実さがあなたに安心感を与えます。お互いを支え合いながら穏やかな家庭を築けます。' }] },
-      'AESC': { name: '愛の守護者', emoji: '🏠', description: '温かい愛情表現と安定志向を兼ね備えたタイプ。家庭的で、パートナーとの穏やかで確かな絆を何より大切にします。', strengths: ['安定した愛情', '家庭を大切にする', '信頼できるパートナー'], challenges: ['変化を恐れがち', '新しい経験への抵抗'], loveMatch: [{ type: 'RESC', reason: '同じ安定志向と感情重視の価値観を共有。お互いに安心感を与え合い、穏やかで深い愛を育めます。' }, { type: 'AEPV', reason: '正反対の冒険心があなたの世界を広げてくれます。相手の情熱に刺激を受けながら、あなたの安定感が相手を支えます。' }], marriageMatch: [{ type: 'RLPV', reason: '相手の革新的な発想があなたの保守的な面を補い、家庭に適度な変化と刺激をもたらします。長期的にマンネリ化を防ぎ、成長し続ける関係が築けます。' }, { type: 'ALPV', reason: '積極的な愛情表現が共通しつつ、相手の冒険心があなたの安定志向とバランスを取ります。お互いの良さを引き出し合える関係です。' }] },
-      'ALPV': { name: '戦略的な開拓者', emoji: '🚀', description: '愛情表現は積極的ながら、関係性を理性的に分析するタイプ。情熱的に新しいことに挑戦し、論理的に将来を設計します。', strengths: ['問題解決が得意', '積極的なリード', '成長志向'], challenges: ['感情的なケアが苦手', '分析しすぎる傾向'], loveMatch: [{ type: 'REPV', reason: '同じ冒険心を持ちながら、相手の感情豊かさがあなたの論理的な面を和らげます。知的な刺激と感情的な深さの両方を楽しめます。' }, { type: 'AEPV', reason: '情熱と積極性が共鳴し、一緒にエキサイティングな体験を追求できます。お互いをリードし合う刺激的な関係に。' }], marriageMatch: [{ type: 'RESC', reason: '相手の感情重視と安定志向が、あなたの論理的で冒険的な面を補完。家庭に温かさと安定をもたらし、あなたが外で挑戦する基盤を作ってくれます。' }, { type: 'REPC', reason: '相手の堅実さと感情的な深さが、長期的な関係に必要な安定と愛情を提供。お互いの違いが補い合う理想的なパートナーシップです。' }] },
-      'ALPC': { name: '堅実なプランナー', emoji: '📋', description: '愛情を積極的に示しながらも、冷静に関係性を築くタイプ。情熱的でありつつ、将来をしっかり見据えた計画的な恋愛を好みます。', strengths: ['計画的なデート', '将来設計が明確', '頼りがいがある'], challenges: ['ロマンチックさが不足', '感情より論理を優先'], loveMatch: [{ type: 'AEPC', reason: '堅実さを共有しながら、相手の感情豊かさがあなたの恋愛に彩りを添えます。計画的でありながら愛情深い関係が築けます。' }, { type: 'REPC', reason: '同じ堅実志向で将来のビジョンが合いやすく、穏やかながらも確実に愛を育めます。' }], marriageMatch: [{ type: 'RESV', reason: '相手の感情的な深さと夢見る心が、あなたの計画重視の生活にロマンスと潤いを与えます。現実と理想のバランスが取れた家庭を築けます。' }, { type: 'AESV', reason: '愛情表現の積極さが共通し、相手の柔軟な姿勢があなたの堅さを和らげます。お互いを尊重しながら成長できる関係です。' }] },
-      'ALSV': { name: '知的な探求者', emoji: '🔮', description: '愛情表現は積極的ながら、安定した関係の中で新しい可能性を探るタイプ。理性的でありながら、夢や理想を追い求めます。', strengths: ['深い会話ができる', '知的好奇心が旺盛', 'バランスが良い'], challenges: ['感情表現が理屈っぽい', '実行より計画に偏りがち'], loveMatch: [{ type: 'RESV', reason: '同じ知的好奇心と夢追い人の気質を共有。深い会話と精神的なつながりを楽しめる、心が通じ合う関係です。' }, { type: 'AESV', reason: '安定志向と未来への希望が一致。お互いの夢を応援し合い、知的にも感情的にも満たされる関係を築けます。' }], marriageMatch: [{ type: 'REPC', reason: '相手の感情重視と堅実さが、あなたの理想追求に現実的な基盤を与えます。長期的に安定しつつ、精神的な成長も続けられる結婚生活に。' }, { type: 'AEPC', reason: '愛情表現は共に積極的で、相手の情熱と堅実さのミックスがあなたの探求心を支えます。夢を追いながらも地に足のついた家庭を築けます。' }] },
-      'ALSC': { name: '安定の建築家', emoji: '🏰', description: '積極的に愛情を示しながら、論理的かつ堅実に関係を構築するタイプ。安定した土台の上に、着実に愛を育てていきます。', strengths: ['信頼性が高い', '一貫した愛情', '現実的な判断'], challenges: ['サプライズが苦手', '柔軟性に欠ける'], loveMatch: [{ type: 'AESC', reason: '同じ安定志向で、積極的な愛情表現も共通。お互いに安心感を与え合い、確実に絆を深められます。' }, { type: 'RESC', reason: '堅実さを共有しながら、相手の感情豊かさがあなたの論理的な面に温かみを加えます。' }], marriageMatch: [{ type: 'REPV', reason: '相手の秘めた情熱と冒険心が、あなたの堅実な生活に刺激と彩りを与えます。違いがあるからこそ飽きのこない、長続きする結婚生活に。' }, { type: 'AEPV', reason: '愛情表現の積極さは共通しながら、相手の情熱があなたの安定重視をうまく補完。お互いの強みを活かした家庭を築けます。' }] },
-      'REPV': { name: '秘めた情熱家', emoji: '🌋', description: '普段は控えめながら、内に秘めた情熱は人一倍。感情を大切にし、冒険的な未来を夢見るロマンチストです。', strengths: ['深い内面世界', '情熱的なサプライズ', '独自の世界観'], challenges: ['気持ちが伝わりにくい', '誤解されやすい'], loveMatch: [{ type: 'AEPV', reason: '同じ情熱と冒険心を持ち、相手の積極性があなたの秘めた感情を引き出してくれます。深い理解と刺激的な体験の両方が得られます。' }, { type: 'ALPV', reason: '冒険心が共鳴し、相手の論理性があなたの感情的な面とバランスを取ります。知的にも感情的にも満たされる関係に。' }], marriageMatch: [{ type: 'ALSC', reason: '相手の安定感と一貫した愛情が、あなたの内に秘めた情熱に安心できる居場所を与えます。長期的に信頼し合える関係を築けます。' }, { type: 'AESC', reason: '相手の家庭的な面があなたに安心感を与え、あなたの情熱が相手の生活に刺激を加えます。お互いに必要としあえる関係です。' }] },
-      'REPC': { name: '静かな献身者', emoji: '🌙', description: '控えめながら深い愛情を持ち、感情的なつながりを大切にするタイプ。情熱を秘めながら、堅実な未来を一緒に築きたいと願います。', strengths: ['深い愛情', '相手を理解する力', '誠実さ'], challenges: ['自己表現が苦手', '受け身になりがち'], loveMatch: [{ type: 'AEPC', reason: '感情重視と堅実さが一致。相手の積極性があなたの愛情を引き出し、深い信頼関係を築けます。' }, { type: 'ALPC', reason: '堅実志向が共通し、相手のリードがあなたに安心感を与えます。ゆっくりと、しかし確実に愛を育めます。' }], marriageMatch: [{ type: 'ALSV', reason: '相手の知的好奇心と積極性が、あなたの控えめな面をうまく補います。お互いの感情を大切にしながら、新しい可能性も探れる結婚生活に。' }, { type: 'ALPV', reason: '相手の行動力があなたの堅実さと組み合わさり、バランスの取れた家庭を築けます。違いを受け入れ合うことで成長できる関係です。' }] },
-      'RESV': { name: '夢見る詩人', emoji: '✨', description: '控えめで感情豊か、安定を求めながらも夢を追い続けるタイプ。静かな愛情の中に、無限の想像力を秘めています。', strengths: ['繊細な感性', '芸術的センス', '深い共感力'], challenges: ['現実逃避しがち', '自信がない'], loveMatch: [{ type: 'AESV', reason: '同じ夢追い人の感性を共有し、お互いの内面世界を深く理解し合えます。感情的に豊かで、穏やかな愛を育めます。' }, { type: 'ALSV', reason: '知的な探求心と夢見る心が共鳴。相手の積極性があなたの繊細さを包み込み、精神的に満たされる関係に。' }], marriageMatch: [{ type: 'ALPC', reason: '相手の計画性と現実的な視点が、あなたの夢を実現可能な形に落とし込む手助けをしてくれます。夢と現実のバランスが取れた家庭を築けます。' }, { type: 'AEPC', reason: '相手の愛情深さと堅実さが、あなたに安心感と自信を与えます。感情を大切にしながらも地に足のついた結婚生活に。' }] },
-      'RESC': { name: '穏やかな番人', emoji: '🕊️', description: '控えめで感情を大切にし、安定と堅実さを何より重視するタイプ。静かに、確実に、深い絆を育てていきます。', strengths: ['落ち着いた安心感', '一途な愛', '忍耐強い'], challenges: ['変化への適応が遅い', '自分を抑えすぎる'], loveMatch: [{ type: 'AESC', reason: '同じ安定志向と感情重視で、お互いに深い安心感を与え合えます。穏やかで確かな愛を育める相手です。' }, { type: 'ALSC', reason: '堅実さが共通し、相手の積極性があなたの控えめな面を補います。着実に信頼を深められる関係です。' }], marriageMatch: [{ type: 'ALPV', reason: '相手の冒険心と行動力が、あなたの安定した生活に適度な変化と刺激をもたらします。長期的にマンネリ化を防ぎ、お互いを成長させる関係です。' }, { type: 'AEPV', reason: '正反対だからこそ補い合える関係。相手の情熱があなたの静かな愛情に火をつけ、あなたの安定感が相手を支えます。' }] },
-      'RLPV': { name: '冷静な革命家', emoji: '⚡', description: '控えめながら理性的で、情熱的に新しい未来を切り開くタイプ。論理と野心を武器に、独自の道を歩みます。', strengths: ['独立心が強い', '革新的な発想', '冷静な判断力'], challenges: ['感情表現が苦手', '近寄りがたい印象'], loveMatch: [{ type: 'AEPV', reason: '冒険心と情熱が共鳴。相手の感情豊かさと積極性が、あなたの論理的な殻を破り、深い感情的つながりを体験させてくれます。' }, { type: 'ALPV', reason: '同じ革新的な志向を持ち、知的な刺激を与え合えます。お互いの野心を尊重し高め合う関係に。' }], marriageMatch: [{ type: 'AEPC', reason: '相手の感情的な温かさと堅実さが、あなたのクールな面を補います。家庭に愛情と安定をもたらし、あなたが革新を追求する基盤を作ってくれます。' }, { type: 'AESC', reason: '相手の家庭的で安定した愛情が、あなたの冒険的な精神に安らぎを与えます。違いがあるからこそ長続きする関係です。' }] },
-      'RLPC': { name: '静かな戦略家', emoji: '♟️', description: '控えめで論理的、情熱を秘めながら堅実に計画を立てるタイプ。表には出さないが、深く考え抜いた愛の形を持っています。', strengths: ['深い思考力', '長期的な視野', '信頼性'], challenges: ['感情が読めない', 'ロマンチックさが不足'], loveMatch: [{ type: 'AEPC', reason: '堅実さが共通し、相手の感情豊かさと積極性があなたの内面を引き出します。じっくりと深い関係を築けます。' }, { type: 'ALPC', reason: '同じ計画的で堅実な価値観を共有。お互いの論理性を尊重しながら、着実に信頼を深められます。' }], marriageMatch: [{ type: 'AESV', reason: '相手の感情的な温かさと柔軟性が、あなたの論理的で堅い面を和らげます。お互いの違いが補い合い、バランスの取れた家庭を築けます。' }, { type: 'AEPC', reason: '相手の愛情深さがあなたに感情的な充足感を与え、共通の堅実志向が安定した家庭基盤を作ります。' }] },
-      'RLSV': { name: '思慮深い賢者', emoji: '🦉', description: '控えめで理性的、安定を求めながらも新しい可能性に開かれたタイプ。深い洞察力と知恵で、関係を導きます。', strengths: ['深い洞察力', '知的な会話', 'バランス感覚'], challenges: ['決断が遅い', '感情より頭で考える'], loveMatch: [{ type: 'ALSV', reason: '知的好奇心と安定志向が一致。深い会話と精神的なつながりを楽しめる、心の通い合う関係です。' }, { type: 'AESV', reason: '安定志向と未来への可能性を共有。相手の感情豊かさがあなたの論理的な面に温かみを加えます。' }], marriageMatch: [{ type: 'AEPC', reason: '相手の情熱的な愛情と堅実さが、あなたの控えめで知的な面を補完。感情的にも実生活でも満たされる結婚生活に。' }, { type: 'AEPV', reason: '相手の行動力と感情の豊かさが、あなたの思慮深い姿勢と組み合わさり、刺激と安定の両方がある家庭を築けます。' }] },
-      'RLSC': { name: '揺るぎない柱', emoji: '🗿', description: '控えめで論理的、安定と堅実さを極めたタイプ。静かに、確実に、揺るぎない愛の土台を築きます。', strengths: ['圧倒的な安定感', '一貫性', '信頼できる'], challenges: ['面白みがない印象', '柔軟性に欠ける'], loveMatch: [{ type: 'ALSC', reason: '同じ安定志向と堅実さを共有。お互いに信頼し合い、確実に絆を深められる相手です。' }, { type: 'RESC', reason: '堅実さが一致し、相手の感情豊かさがあなたの論理的な面に深みを与えます。穏やかで確かな関係を築けます。' }], marriageMatch: [{ type: 'AEPV', reason: '正反対だからこそ最高のバランス。相手の情熱と冒険心があなたの堅実な生活に刺激と彩りを与え、あなたの安定感が相手を支えます。長期的に補い合える理想的な組み合わせです。' }, { type: 'ALPV', reason: '相手の積極性と冒険心があなたの保守的な面を補い、あなたの一貫した安定感が相手に安心を与えます。違いを活かした成長できる関係です。' }] }
-    };
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">💫</span>
+        <span class="logo-text">Love Spectrum</span>
+      </div>
+      <button id="reset-btn" class="reset-btn hidden">最初から</button>
+    </header>
 
-    const questions = [
-      { id: 1, axis: 'AR', text: '好きな人には、言葉や行動で積極的に愛情を伝えたい' },
-      { id: 2, axis: 'AR', text: '記念日やイベントは盛大にお祝いしたいタイプだ' },
-      { id: 3, axis: 'AR', text: '愛情は態度で見せるより、はっきり言葉にする方が好き' },
-      { id: 4, axis: 'AR', text: '人前でも恋人とスキンシップをとることに抵抗がない' },
-      { id: 5, axis: 'AR', text: 'サプライズを仕掛けるのが好きだ' },
-      { id: 6, axis: 'EL', text: 'パートナー選びでは、条件より「心が動くか」を重視する' },
-      { id: 7, axis: 'EL', text: '喧嘩の時は、論理より感情で話し合いたい' },
-      { id: 8, axis: 'EL', text: '「好き」という気持ちに理由は必要ないと思う' },
-      { id: 9, axis: 'EL', text: '恋愛においては、頭で考えるより心に従うべきだ' },
-      { id: 10, axis: 'EL', text: '相手の感情の変化に敏感な方だ' },
-      { id: 11, axis: 'PS', text: '恋愛には刺激とドキドキ感が大切だと思う' },
-      { id: 12, axis: 'PS', text: 'マンネリ化するくらいなら、多少のリスクがあっても変化を求めたい' },
-      { id: 13, axis: 'PS', text: '「燃えるような恋」に憧れる' },
-      { id: 14, axis: 'PS', text: '予定通りより、spontaneous（自発的）なデートが好き' },
-      { id: 15, axis: 'PS', text: '恋愛初期のような情熱をずっと維持したい' },
-      { id: 16, axis: 'VC', text: 'パートナーとは新しいことにどんどん挑戦したい' },
-      { id: 17, axis: 'VC', text: '将来の計画より、今を楽しむことを優先したい' },
-      { id: 18, axis: 'VC', text: '安定より、成長や変化のある関係に惹かれる' },
-      { id: 19, axis: 'VC', text: '「冒険的な人生」を一緒に歩めるパートナーが理想だ' },
-      { id: 20, axis: 'VC', text: '転職や引っ越しなど、大きな変化も前向きに受け入れられる' }
-    ];
-
-    const answerOptions = [
-      { value: 2, label: 'とても当てはまる' },
-      { value: 1, label: 'やや当てはまる' },
-      { value: 0, label: 'どちらでもない' },
-      { value: -1, label: 'あまり当てはまらない' },
-      { value: -2, label: '全く当てはまらない' }
-    ];
-
-    function FloatingPetals() {
-      const petals = ['🌸', '💗', '✨', '🩷', '💫', '🦋'];
-      return (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 0 }}>
-          {[...Array(18)].map((_, i) => (
-            <div key={i} style={{
-              position: 'absolute',
-              fontSize: Math.random() * 14 + 10 + 'px',
-              left: Math.random() * 100 + '%',
-              top: '-20px',
-              animation: `floatPetal ${Math.random() * 8 + 12}s linear infinite`,
-              animationDelay: Math.random() * 10 + 's',
-              opacity: 0.7
-            }}>{petals[Math.floor(Math.random() * petals.length)]}</div>
-          ))}
-        </div>
-      );
-    }
-
-    function ShareButtons({ result }) {
-      const shareText = `💖 Love Spectrum診断の結果は「${result.data.name}」でした！\n${result.data.emoji} タイプ: ${result.type}\n\nあなたも診断してみてね✨`;
-      const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+    <!-- Main Content -->
+    <main class="main-content">
       
-      const handleShare = (platform) => {
-        let url = '';
-        switch(platform) {
-          case 'line':
-            url = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
-            break;
-          case 'twitter':
-            url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
-            break;
-          case 'facebook':
-            url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
-            break;
-          case 'instagram':
-            navigator.clipboard.writeText(shareText + '\n' + shareUrl);
-            alert('📋 テキストをコピーしました！\n\nInstagramのストーリーやキャプションに貼り付けてシェアしてね💕');
-            return;
-        }
-        window.open(url, '_blank', 'width=600,height=400');
-      };
+      <!-- Intro Screen -->
+      <section id="intro-screen" class="screen intro-screen">
+        <div class="intro-heart">💖</div>
+        <h1 class="intro-title">Love Spectrum</h1>
+        <p class="intro-subtitle">恋愛スペクトラム診断</p>
+        <p class="intro-description">
+          20の質問であなたの恋愛タイプを診断 ✨<br>
+          <span class="text-pink">恋愛相性</span>と<span class="text-purple">結婚相性</span>を詳しく解説
+        </p>
+        <div class="intro-features">
+          <div class="feature-card">
+            <div class="feature-icon">💝</div>
+            <div class="feature-label">愛情表現</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">💭</div>
+            <div class="feature-label">感情・理性</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔥</div>
+            <div class="feature-label">情熱・安定</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🌟</div>
+            <div class="feature-label">将来展望</div>
+          </div>
+        </div>
+        <button id="start-btn" class="start-btn">診断スタート 💕</button>
+        <p class="intro-time">所要時間：約3〜5分</p>
+      </section>
 
-      const btnBase = { width: '56px', height: '56px', borderRadius: '50%', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s ease', boxShadow: '0 4px 15px rgba(0,0,0,0.1)' };
+      <!-- Quiz Screen -->
+      <section id="quiz-screen" class="screen quiz-screen hidden">
+        <div class="progress-container">
+          <div class="progress-info">
+            <span id="question-counter">Question 1 / 20</span>
+            <span id="progress-percent">5%</span>
+          </div>
+          <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+        </div>
+        <div id="question-card" class="question-card">
+          <div id="question-category" class="question-category">💝 愛情表現について</div>
+          <h2 id="question-text" class="question-text"></h2>
+          <div id="answer-options" class="answer-options"></div>
+        </div>
+      </section>
 
-      return (
-        <div style={{ marginTop: '35px', textAlign: 'center', background: 'rgba(255,255,255,0.7)', borderRadius: '20px', padding: '25px', border: '1px solid rgba(255,182,193,0.2)' }}>
-          <p style={{ fontSize: '15px', color: '#ff6b9d', marginBottom: '18px', fontWeight: '500' }}>💌 診断結果をシェアする</p>
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button onClick={() => handleShare('line')} style={{ ...btnBase, background: '#06C755', color: '#fff' }} title="LINEでシェア">
+      <!-- Result Screen -->
+      <section id="result-screen" class="screen result-screen hidden">
+        <div class="result-header">
+          <p class="result-label">Your Love Type</p>
+          <h2 id="result-title" class="result-title"></h2>
+          <p id="result-type-code" class="result-type-code"></p>
+        </div>
+
+        <div id="result-description" class="result-description"></div>
+
+        <div class="traits-grid">
+          <div class="trait-card trait-strengths">
+            <h3 class="trait-title"><span>✨</span> 強み</h3>
+            <ul id="strengths-list" class="trait-list"></ul>
+          </div>
+          <div class="trait-card trait-challenges">
+            <h3 class="trait-title"><span>💡</span> 注意点</h3>
+            <ul id="challenges-list" class="trait-list"></ul>
+          </div>
+        </div>
+
+        <!-- Love Match Section -->
+        <div class="compatibility-section love-section">
+          <h3 class="compatibility-title"><span>💕</span> 恋愛で相性の良いタイプ</h3>
+          <p class="compatibility-subtitle">ドキドキ感・情熱・感情的なつながりを重視</p>
+          <div id="love-matches" class="match-list"></div>
+        </div>
+
+        <!-- Marriage Match Section -->
+        <div class="compatibility-section marriage-section">
+          <h3 class="compatibility-title"><span>💍</span> 結婚相手として相性の良いタイプ</h3>
+          <p class="compatibility-subtitle">長期的な安定・価値観の一致・生活面での補完を重視</p>
+          <div id="marriage-matches" class="match-list"></div>
+        </div>
+
+        <!-- Spectrum Chart -->
+        <div class="spectrum-section">
+          <h3 class="spectrum-title">あなたのスペクトラム</h3>
+          <div id="spectrum-chart" class="spectrum-chart"></div>
+        </div>
+
+        <!-- Share Buttons -->
+        <div class="share-section">
+          <p class="share-title">💌 診断結果をシェアする</p>
+          <div class="share-buttons">
+            <button id="share-line" class="share-btn share-line" title="LINEでシェア">
               <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
             </button>
-            <button onClick={() => handleShare('twitter')} style={{ ...btnBase, background: '#000', color: '#fff' }} title="X(Twitter)でシェア">
+            <button id="share-x" class="share-btn share-x" title="Xでシェア">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </button>
-            <button onClick={() => handleShare('facebook')} style={{ ...btnBase, background: '#1877F2', color: '#fff' }} title="Facebookでシェア">
+            <button id="share-facebook" class="share-btn share-facebook" title="Facebookでシェア">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </button>
-            <button onClick={() => handleShare('instagram')} style={{ ...btnBase, background: 'linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)', color: '#fff' }} title="Instagramでシェア">
+            <button id="share-instagram" class="share-btn share-instagram" title="Instagramでシェア">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
             </button>
           </div>
         </div>
-      );
-    }
 
-    function App() {
-      const [step, setStep] = useState('intro');
-      const [qIdx, setQIdx] = useState(0);
-      const [answers, setAnswers] = useState({});
-      const [result, setResult] = useState(null);
-      const [sel, setSel] = useState(null);
-      const [anim, setAnim] = useState(false);
-      const [expLove, setExpLove] = useState(null);
-      const [expMarriage, setExpMarriage] = useState(null);
-
-      const handleAnswer = (v) => {
-        setSel(v);
-        setAnim(true);
-        setTimeout(() => {
-          const newAns = { ...answers, [questions[qIdx].id]: v };
-          setAnswers(newAns);
-          if (qIdx < questions.length - 1) {
-            setQIdx(qIdx + 1);
-            setSel(null);
-          } else {
-            const scores = { AR: 0, EL: 0, PS: 0, VC: 0 };
-            questions.forEach(q => { scores[q.axis] += newAns[q.id] || 0; });
-            const type = (scores.AR >= 0 ? 'A' : 'R') + (scores.EL >= 0 ? 'E' : 'L') + (scores.PS >= 0 ? 'P' : 'S') + (scores.VC >= 0 ? 'V' : 'C');
-            setResult({ type, scores, data: typeData[type] });
-            setStep('result');
-          }
-          setAnim(false);
-        }, 300);
-      };
-
-      const reset = () => { setStep('intro'); setQIdx(0); setAnswers({}); setResult(null); setSel(null); setExpLove(null); setExpMarriage(null); };
-      const progress = ((qIdx + 1) / questions.length) * 100;
-
-      return (
-        <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fff9fa 0%, #fff0f3 30%, #fef5f8 60%, #fff8fb 100%)', fontFamily: '"Zen Maru Gothic", sans-serif', color: '#4a4a4a', position: 'relative' }}>
-          <FloatingPetals />
-          <div style={{ position: 'fixed', top: '-100px', right: '-100px', width: '350px', height: '350px', background: 'radial-gradient(circle, rgba(255,182,193,0.25) 0%, transparent 70%)', borderRadius: '50%', pointerEvents: 'none' }} />
-          <div style={{ position: 'fixed', bottom: '-150px', left: '-150px', width: '450px', height: '450px', background: 'radial-gradient(circle, rgba(255,105,180,0.15) 0%, transparent 70%)', borderRadius: '50%', pointerEvents: 'none' }} />
-          <div style={{ position: 'fixed', top: '40%', right: '-200px', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(167,139,250,0.12) 0%, transparent 70%)', borderRadius: '50%', pointerEvents: 'none' }} />
-
-          <header style={{ padding: '18px 35px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,105,180,0.12)', background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(10px)', position: 'relative', zIndex: 10 }}>
-            <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '22px', fontWeight: '600', letterSpacing: '2px', background: 'linear-gradient(135deg, #ff6b9d, #ff8fab)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '26px', WebkitTextFillColor: 'initial' }}>💫</span>Love Spectrum
-            </div>
-            {step !== 'intro' && <button onClick={reset} style={{ background: 'linear-gradient(135deg, #ff6b9d, #ff8fab)', border: 'none', color: '#fff', padding: '8px 18px', borderRadius: '20px', cursor: 'pointer', fontSize: '13px', boxShadow: '0 3px 12px rgba(255,107,157,0.25)' }}>最初から</button>}
-          </header>
-
-          <main style={{ maxWidth: '780px', margin: '0 auto', padding: '35px 20px 50px', minHeight: 'calc(100vh - 80px)', display: 'flex', flexDirection: 'column', justifyContent: step === 'result' ? 'flex-start' : 'center', position: 'relative', zIndex: 1 }}>
-            
-            {step === 'intro' && (
-              <div style={{ textAlign: 'center', animation: 'fadeIn 1s ease-out' }}>
-                <div style={{ fontSize: '75px', marginBottom: '18px', animation: 'heartbeat 2s ease-in-out infinite' }}>💖</div>
-                <h1 style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 'clamp(30px, 6vw, 52px)', fontWeight: '500', marginBottom: '12px', background: 'linear-gradient(135deg, #ff6b9d, #ff8fab, #a78bfa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '3px' }}>Love Spectrum</h1>
-                <p style={{ fontSize: '17px', color: '#ff6b9d', marginBottom: '8px', fontWeight: '500' }}>恋愛スペクトラム診断</p>
-                <p style={{ fontSize: '14px', color: '#888', marginBottom: '45px', lineHeight: '1.9' }}>20の質問であなたの恋愛タイプを診断 ✨<br/><span style={{ color: '#ff6b9d' }}>恋愛相性</span>と<span style={{ color: '#a78bfa' }}>結婚相性</span>を詳しく解説</p>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', maxWidth: '480px', margin: '0 auto 45px', padding: '0 15px' }}>
-                  {[{ icon: '💝', label: '愛情表現' }, { icon: '💭', label: '感情・理性' }, { icon: '🔥', label: '情熱・安定' }, { icon: '🌟', label: '将来展望' }].map((item, i) => (
-                    <div key={i} style={{ background: 'rgba(255,255,255,0.85)', borderRadius: '18px', padding: '18px 8px', border: '1px solid rgba(255,182,193,0.25)', boxShadow: '0 4px 18px rgba(255,182,193,0.12)', animation: `float ${3 + i * 0.5}s ease-in-out infinite`, animationDelay: `${i * 0.2}s` }}>
-                      <div style={{ fontSize: '26px', marginBottom: '6px' }}>{item.icon}</div>
-                      <div style={{ fontSize: '10px', color: '#888' }}>{item.label}</div>
-                    </div>
-                  ))}
-                </div>
-                <button onClick={() => setStep('quiz')} style={{ background: 'linear-gradient(135deg, #ff6b9d 0%, #ff8fab 50%, #ffb6c1 100%)', border: 'none', color: '#fff', padding: '16px 55px', borderRadius: '50px', fontSize: '17px', fontWeight: '500', cursor: 'pointer', boxShadow: '0 10px 35px rgba(255,107,157,0.35)', letterSpacing: '2px', animation: 'bounce 2s ease-in-out infinite' }}>診断スタート 💕</button>
-                <p style={{ marginTop: '28px', fontSize: '12px', color: '#aaa' }}>所要時間：約3〜5分</p>
-              </div>
-            )}
-
-            {step === 'quiz' && (
-              <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
-                <div style={{ marginBottom: '35px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '13px', color: '#888' }}>
-                    <span>Question {qIdx + 1} / {questions.length}</span>
-                    <span>{Math.round(progress)}%</span>
-                  </div>
-                  <div style={{ height: '6px', background: 'rgba(255,182,193,0.25)', borderRadius: '3px', overflow: 'hidden' }}>
-                    <div style={{ height: '100%', width: `${progress}%`, background: 'linear-gradient(90deg, #ff6b9d, #ff8fab, #a78bfa)', borderRadius: '3px', transition: 'width 0.5s ease', boxShadow: '0 0 10px rgba(255,107,157,0.4)' }} />
-                  </div>
-                </div>
-                <div style={{ background: 'rgba(255,255,255,0.92)', borderRadius: '28px', padding: '45px 35px', border: '1px solid rgba(255,182,193,0.18)', boxShadow: '0 18px 55px rgba(255,182,193,0.18)', opacity: anim ? 0.5 : 1, transform: anim ? 'translateX(15px)' : 'translateX(0)', transition: 'all 0.3s ease', backdropFilter: 'blur(10px)' }}>
-                  <div style={{ fontSize: '13px', color: '#ff6b9d', marginBottom: '18px', textTransform: 'uppercase', letterSpacing: '3px', fontWeight: '500' }}>
-                    {questions[qIdx].axis === 'AR' && '💝 愛情表現について'}
-                    {questions[qIdx].axis === 'EL' && '💭 感情と理性について'}
-                    {questions[qIdx].axis === 'PS' && '🔥 恋愛のペースについて'}
-                    {questions[qIdx].axis === 'VC' && '🌟 将来について'}
-                  </div>
-                  <h2 style={{ fontSize: 'clamp(18px, 4vw, 24px)', fontWeight: '500', lineHeight: '1.7', marginBottom: '35px', color: '#4a4a4a' }}>{questions[qIdx].text}</h2>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    {answerOptions.map((opt) => (
-                      <button key={opt.value} onClick={() => handleAnswer(opt.value)} disabled={anim} style={{ background: sel === opt.value ? 'linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%)' : 'rgba(255,255,255,0.85)', border: sel === opt.value ? 'none' : '1px solid rgba(255,182,193,0.25)', color: sel === opt.value ? '#fff' : '#666', padding: '16px 22px', borderRadius: '14px', fontSize: '15px', cursor: anim ? 'default' : 'pointer', transition: 'all 0.2s ease', textAlign: 'left', opacity: anim ? 0.5 : 1, boxShadow: sel === opt.value ? '0 6px 22px rgba(255,107,157,0.28)' : '0 2px 8px rgba(0,0,0,0.04)' }}>{opt.label}</button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {step === 'result' && result && (
-              <div style={{ animation: 'slideUp 0.8s ease-out' }}>
-                <div style={{ textAlign: 'center', marginBottom: '35px' }}>
-                  <p style={{ fontSize: '13px', color: '#ff6b9d', textTransform: 'uppercase', letterSpacing: '4px', marginBottom: '8px', fontWeight: '500' }}>Your Love Type</p>
-                  <h2 style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 'clamp(32px, 7vw, 48px)', fontWeight: '500', background: 'linear-gradient(135deg, #ff6b9d, #ff8fab, #a78bfa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: '5px' }}>{result.data.emoji} {result.data.name}</h2>
-                  <p style={{ fontSize: '18px', color: '#a78bfa', fontFamily: '"Cormorant Garamond", serif', letterSpacing: '5px' }}>{result.type}</p>
-                </div>
-
-                <div style={{ background: 'rgba(255,255,255,0.9)', borderRadius: '22px', padding: '35px', border: '1px solid rgba(255,182,193,0.18)', marginBottom: '22px', boxShadow: '0 8px 35px rgba(255,182,193,0.12)' }}>
-                  <p style={{ fontSize: '15px', lineHeight: '2', color: '#555' }}>{result.data.description}</p>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '18px', marginBottom: '22px' }}>
-                  <div style={{ background: 'linear-gradient(135deg, rgba(134,239,172,0.12), rgba(74,222,128,0.08))', borderRadius: '18px', padding: '22px', border: '1px solid rgba(74,222,128,0.25)', boxShadow: '0 4px 18px rgba(74,222,128,0.08)' }}>
-                    <h3 style={{ fontSize: '13px', color: '#22c55e', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '600' }}><span>✨</span> 強み</h3>
-                    <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>{result.data.strengths.map((s, i) => <li key={i} style={{ fontSize: '13px', color: '#555', marginBottom: '6px', paddingLeft: '14px', position: 'relative' }}><span style={{ position: 'absolute', left: 0, color: '#22c55e' }}>•</span>{s}</li>)}</ul>
-                  </div>
-                  <div style={{ background: 'linear-gradient(135deg, rgba(251,191,36,0.12), rgba(245,158,11,0.08))', borderRadius: '18px', padding: '22px', border: '1px solid rgba(245,158,11,0.25)', boxShadow: '0 4px 18px rgba(245,158,11,0.08)' }}>
-                    <h3 style={{ fontSize: '13px', color: '#f59e0b', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '600' }}><span>💡</span> 注意点</h3>
-                    <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>{result.data.challenges.map((c, i) => <li key={i} style={{ fontSize: '13px', color: '#555', marginBottom: '6px', paddingLeft: '14px', position: 'relative' }}><span style={{ position: 'absolute', left: 0, color: '#f59e0b' }}>•</span>{c}</li>)}</ul>
-                  </div>
-                </div>
-
-                {/* Love Match */}
-                <div style={{ background: 'linear-gradient(135deg, rgba(255,107,157,0.08) 0%, rgba(255,182,193,0.05) 100%)', borderRadius: '22px', padding: '30px', border: '1px solid rgba(255,182,193,0.25)', marginBottom: '22px', boxShadow: '0 8px 35px rgba(255,182,193,0.12)' }}>
-                  <h3 style={{ fontSize: '16px', color: '#ff6b9d', marginBottom: '8px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: '600' }}><span>💕</span> 恋愛で相性の良いタイプ</h3>
-                  <p style={{ fontSize: '12px', color: '#888', textAlign: 'center', marginBottom: '20px' }}>ドキドキ感・情熱・感情的なつながりを重視</p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    {result.data.loveMatch.map((m, idx) => (
-                      <div key={m.type} style={{ background: 'rgba(255,255,255,0.85)', borderRadius: '14px', border: '1px solid rgba(255,107,157,0.15)', overflow: 'hidden', boxShadow: '0 3px 12px rgba(255,107,157,0.08)' }}>
-                        <button onClick={() => setExpLove(expLove === idx ? null : idx)} style={{ width: '100%', background: 'transparent', border: 'none', padding: '15px 18px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#4a4a4a' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <span style={{ fontSize: '11px', background: 'linear-gradient(135deg, #ff6b9d, #ff8fab)', padding: '3px 10px', borderRadius: '15px', color: '#fff', fontWeight: '600' }}>{idx === 0 ? '1st' : '2nd'}</span>
-                            <span style={{ fontSize: '24px' }}>{typeData[m.type].emoji}</span>
-                            <div style={{ textAlign: 'left' }}><div style={{ fontSize: '14px', fontWeight: '600', color: '#4a4a4a' }}>{typeData[m.type].name}</div><div style={{ fontSize: '11px', color: '#999' }}>{m.type}</div></div>
-                          </div>
-                          <span style={{ transform: expLove === idx ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s ease', fontSize: '12px', color: '#ff6b9d' }}>▼</span>
-                        </button>
-                        {expLove === idx && <div style={{ padding: '0 18px 18px', animation: 'fadeIn 0.3s ease-out' }}><div style={{ background: 'linear-gradient(135deg, rgba(255,107,157,0.06), rgba(255,182,193,0.03))', borderRadius: '10px', padding: '15px' }}><div style={{ fontSize: '11px', color: '#ff6b9d', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '5px', fontWeight: '600' }}><span>💗</span> 相性の理由</div><p style={{ fontSize: '13px', lineHeight: '1.9', color: '#555', margin: 0 }}>{m.reason}</p></div></div>}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Marriage Match */}
-                <div style={{ background: 'linear-gradient(135deg, rgba(167,139,250,0.08) 0%, rgba(139,92,246,0.05) 100%)', borderRadius: '22px', padding: '30px', border: '1px solid rgba(167,139,250,0.25)', marginBottom: '22px', boxShadow: '0 8px 35px rgba(167,139,250,0.12)' }}>
-                  <h3 style={{ fontSize: '16px', color: '#a78bfa', marginBottom: '8px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: '600' }}><span>💍</span> 結婚相手として相性の良いタイプ</h3>
-                  <p style={{ fontSize: '12px', color: '#888', textAlign: 'center', marginBottom: '20px' }}>長期的な安定・価値観の一致・生活面での補完を重視</p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    {result.data.marriageMatch.map((m, idx) => (
-                      <div key={m.type} style={{ background: 'rgba(255,255,255,0.85)', borderRadius: '14px', border: '1px solid rgba(167,139,250,0.15)', overflow: 'hidden', boxShadow: '0 3px 12px rgba(167,139,250,0.08)' }}>
-                        <button onClick={() => setExpMarriage(expMarriage === idx ? null : idx)} style={{ width: '100%', background: 'transparent', border: 'none', padding: '15px 18px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#4a4a4a' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <span style={{ fontSize: '11px', background: 'linear-gradient(135deg, #a78bfa, #8b5cf6)', padding: '3px 10px', borderRadius: '15px', color: '#fff', fontWeight: '600' }}>{idx === 0 ? '1st' : '2nd'}</span>
-                            <span style={{ fontSize: '24px' }}>{typeData[m.type].emoji}</span>
-                            <div style={{ textAlign: 'left' }}><div style={{ fontSize: '14px', fontWeight: '600', color: '#4a4a4a' }}>{typeData[m.type].name}</div><div style={{ fontSize: '11px', color: '#999' }}>{m.type}</div></div>
-                          </div>
-                          <span style={{ transform: expMarriage === idx ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s ease', fontSize: '12px', color: '#a78bfa' }}>▼</span>
-                        </button>
-                        {expMarriage === idx && <div style={{ padding: '0 18px 18px', animation: 'fadeIn 0.3s ease-out' }}><div style={{ background: 'linear-gradient(135deg, rgba(167,139,250,0.06), rgba(139,92,246,0.03))', borderRadius: '10px', padding: '15px' }}><div style={{ fontSize: '11px', color: '#a78bfa', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '5px', fontWeight: '600' }}><span>💎</span> 相性の理由</div><p style={{ fontSize: '13px', lineHeight: '1.9', color: '#555', margin: 0 }}>{m.reason}</p></div></div>}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Spectrum */}
-                <div style={{ background: 'rgba(255,255,255,0.85)', borderRadius: '18px', padding: '25px', border: '1px solid rgba(255,182,193,0.15)', marginBottom: '22px', boxShadow: '0 4px 18px rgba(0,0,0,0.04)' }}>
-                  <h3 style={{ fontSize: '13px', color: '#888', marginBottom: '18px', textAlign: 'center', letterSpacing: '2px' }}>あなたのスペクトラム</h3>
-                  {[{ axis: 'AR', left: 'Reserved (控えめ)', right: 'Active (積極的)', color: '#ff6b9d' }, { axis: 'EL', left: 'Logical (理性)', right: 'Emotional (感情)', color: '#a78bfa' }, { axis: 'PS', left: 'Steady (安定)', right: 'Passionate (情熱)', color: '#f97316' }, { axis: 'VC', left: 'Conservative (堅実)', right: 'Venturous (冒険)', color: '#06b6d4' }].map((item) => {
-                    const pct = ((result.scores[item.axis] + 10) / 20) * 100;
-                    return (
-                      <div key={item.axis} style={{ marginBottom: '18px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#888', marginBottom: '6px' }}><span>{item.left}</span><span>{item.right}</span></div>
-                        <div style={{ height: '10px', background: 'rgba(0,0,0,0.04)', borderRadius: '5px', position: 'relative' }}>
-                          <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: '1px', background: 'rgba(0,0,0,0.08)' }} />
-                          <div style={{ position: 'absolute', left: `${pct}%`, top: '50%', transform: 'translate(-50%, -50%)', width: '18px', height: '18px', borderRadius: '50%', background: item.color, boxShadow: `0 2px 8px ${item.color}50`, border: '2px solid #fff' }} />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <ShareButtons result={result} />
-
-                <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '28px' }}>
-                  <button onClick={reset} style={{ background: 'linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%)', border: 'none', color: '#fff', padding: '14px 35px', borderRadius: '50px', fontSize: '15px', fontWeight: '500', cursor: 'pointer', boxShadow: '0 8px 28px rgba(255,107,157,0.28)' }}>もう一度診断する 💫</button>
-                </div>
-
-                <div style={{ marginTop: '55px', borderTop: '1px solid rgba(255,182,193,0.15)', paddingTop: '35px' }}>
-                  <h3 style={{ fontSize: '16px', color: '#888', textAlign: 'center', marginBottom: '25px' }}>全16タイプ一覧</h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px' }}>
-                    {Object.entries(typeData).map(([code, data]) => (
-                      <div key={code} style={{ background: code === result.type ? 'linear-gradient(135deg, rgba(255,107,157,0.15), rgba(167,139,250,0.1))' : 'rgba(255,255,255,0.85)', borderRadius: '12px', padding: '14px', border: code === result.type ? '2px solid #ff6b9d' : '1px solid rgba(255,182,193,0.15)', textAlign: 'center', boxShadow: code === result.type ? '0 6px 22px rgba(255,107,157,0.15)' : '0 2px 8px rgba(0,0,0,0.02)' }}>
-                        <div style={{ fontSize: '22px', marginBottom: '4px' }}>{data.emoji}</div>
-                        <div style={{ fontSize: '12px', fontWeight: '600', marginBottom: '2px', color: '#4a4a4a' }}>{data.name}</div>
-                        <div style={{ fontSize: '10px', color: '#999' }}>{code}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-          </main>
-
-          <footer style={{ textAlign: 'center', padding: '25px', color: '#aaa', fontSize: '11px', borderTop: '1px solid rgba(255,182,193,0.12)', background: 'rgba(255,255,255,0.6)', position: 'relative', zIndex: 1 }}>
-            <p>Love Spectrum - 恋愛スペクトラム診断 💕</p>
-            <p style={{ marginTop: '4px', fontSize: '10px' }}>※ この診断は娯楽目的です。実際の恋愛や結婚の判断材料としてではなく、自己理解の参考としてお楽しみください。</p>
-          </footer>
+        <div class="retry-section">
+          <button id="retry-btn" class="retry-btn">もう一度診断する 💫</button>
         </div>
-      );
-    }
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
-  </script>
+        <!-- All Types -->
+        <div class="all-types-section">
+          <h3 class="all-types-title">全16タイプ一覧</h3>
+          <div id="all-types-grid" class="all-types-grid"></div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Love Spectrum - 恋愛スペクトラム診断 💕</p>
+      <p class="footer-note">※ この診断は娯楽目的です。実際の恋愛や結婚の判断材料としてではなく、自己理解の参考としてお楽しみください。</p>
+    </footer>
+  </div>
+
+  <script src="js/script.js"></script>
 </body>
 </html>
